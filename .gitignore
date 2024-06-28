@@ -1,2 +1,2 @@
 ## Ignore the configuration of the virtual environment
-.env*/
+env/
