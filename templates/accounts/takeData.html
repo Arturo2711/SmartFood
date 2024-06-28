@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mas de ti</title>
+
+    <link rel="stylesheet" href="{% static 'css/register.css' %}" />
+    <link
+      rel="icon"
+      href="{% static 'images/Icono_SmarFood.png' %}"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          src="{% static 'images/Icono_SmarFood.png' %}"
+          alt="Logo de Nutrición Saludable"
+          class="logo"
+        />
+        <h1>Nutrición Saludable</h1>
+      </div>
+    </header>
+
+    <section class="register-form">
+      <h2>Cuéntanos un poco sobre ti</h2>
+      <p>
+        Por favor, comparte tus datos personales para personalizar tu dieta.
+      </p>
+      <br />
+
+      <form method="POST">
+        {{data_form.as_p}} {% csrf_token %}
+        <button type="submit">Crear Cuenta</button>
+      </form>
+    </section>
+
+    <footer>
+      <p>&copy; 2024 Nutrición Saludable. Todos los derechos reservados.</p>
+    </footer>
+  </body>
+</html>

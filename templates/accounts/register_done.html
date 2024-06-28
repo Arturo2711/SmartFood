@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro Exitoso</title>
+
+    <link rel="stylesheet" href="{% static 'css/register_done.css' %}" />
+    <link
+      rel="icon"
+      href="{% static 'images/Icono_SmarFood.png' %}"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          src="{% static 'images/Icono_SmarFood.png' %}"
+          alt="Logo de Nutrición Saludable"
+          class="logo"
+        />
+        <h1>Nutrición Saludable</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="mensaje">
+      <h2>Bienvenid@ {{new_user.username}} !</h2>
+      <br />
+      <p>Su cuenta ha sido creada con éxito</p>
+      <br />
+      <p>Ahora puedes iniciar sesión.</p>
+    </section>
+
+    <footer>
+      <p>&copy; 2024 Nutrición Saludable. Todos los derechos reservados.</p>
+    </footer>
+  </body>
+</html>

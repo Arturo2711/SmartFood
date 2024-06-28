@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Alimento</title>
+   
+    <link rel="stylesheet" href="{% static 'css/agregar_alimento.css' %}">
+    <link rel="icon" href="{% static 'images/Icono_SmarFood.png' %}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{% static 'images/Icono_SmarFood.png' %}" alt="Logo de Nutrición Saludable" class="logo">
+            <h1>Nutrición Saludable</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="menu">
+        <h2>¿Deseas agregar un alimento a tus comidas?</h2>
+        <br>
+    
+        <div class="meal-option">
+            <p>Desayuno</p>
+            <a href="{% url 'buscar_alimento' %}?meal=desayuno" class="add-btn">+</a>
+        </div>
+        
+        <div class="meal-option">
+            <p>Colación</p>
+            <a href="{% url 'buscar_alimento' %}?meal=colacion" class="add-btn">+</a>
+        </div>
+        <div class="meal-option">
+            <p>Comida</p>
+            <a href="{% url 'buscar_alimento' %}?meal=comida" class="add-btn">+</a>
+        </div>
+        <div class="meal-option">
+            <p>Cena</p>
+            <a href="{% url 'buscar_alimento' %}?meal=cena" class="add-btn">+</a>
+        </div>
+    </section>
+    
+
+    <footer>
+        <p>&copy; 2024 Nutrición Saludable. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
+
