@@ -1,4 +1,4 @@
-#### ALGORTIMOP PARA OBTENER EL VECTOR DESAYUNO, COMIDA COLACION Y CENA
+#### ALGORTIMO PARA OBTENER EL VECTOR DESAYUNO, COMIDA COLACION Y CENA
 
 def calculaCalorias(objetivo, caloriasQuemadas):
     if objetivo == "subir":
@@ -38,5 +38,5 @@ def get_vectores_Desayuno_Comida_Colacion_Cena(kg, fa, objetivo):
 
 
 ### EJEMPLO SOLAMENTE ##
-print(get_vectores_Desayuno_Comida_Colacion_Cena(75, 1.6, 'subir'))
+#print(get_vectores_Desayuno_Comida_Colacion_Cena(75, 1.6, 'subir'))
 
