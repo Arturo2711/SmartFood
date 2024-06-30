@@ -1,84 +1,130 @@
 from .utility import get_Vector
 import random
-import math
+import numpy as np
 
 
-### Transform the individual into a list of vectors ###
-def t(individual):
-    meals = [get_Vector(index_db) for index_db in individual]
-    vector = [sum(meal) for meal in zip(*meals)]
-    return vector 
+def calculate_nutritional_values(chromosome: np.ndarray) -> np.ndarray:
+    nutritional_data = [get_Vector(ingredient) for ingredient in chromosome]
+    return np.sum(nutritional_data, axis=0)
 
 
-### Euclidean distance between the objective vector and the best vector ###
-def objective_Function(objectiveVector, individual):
-    return math.sqrt(sum((ov - iv) ** 2 for ov, iv in zip(objectiveVector, individual)))
+def calculate_euclidean_distance(source: np.ndarray, target: np.ndarray):
+    return np.linalg.norm(source - target)
 
 
-### Initialize population ###
-def initialize_Population(tamPopulation, num_meals, objectiveVector):
+NUMBER_OF_INGREDIENTS = 1408
+
+
+def initialize_population(
+    population_size: int,
+    chromosome_size: int,
+    target_nutritional_values: np.ndarray,
+) -> list[tuple[list, float]]:
     population = []
-    for _ in range(tamPopulation):
-        individual = [random.randint(1, 1408) for _ in range(num_meals)]
-        vector = t(individual)
-        fitness = objective_Function(objectiveVector, vector)
-        population.append([individual, fitness])
+    for _ in range(population_size):
+        chromosome = np.random.randint(
+            1, NUMBER_OF_INGREDIENTS + 1, size=chromosome_size
+        )
+        chromosome_nutritional_data = calculate_nutritional_values(chromosome)
+        chromosome_fitness = calculate_euclidean_distance(
+            target_nutritional_values, chromosome_nutritional_data
+        )
+        population.append((chromosome, chromosome_fitness))
     return population
 
 
-##### Selection method ##########
-# Tournament selection
-def tournament_selection(population, k=3):
-    selected = []
+def tournament_selection(population: list, tournament_size: int = 3):
+    selected_contestants = []
     for _ in range(len(population)):
-        aspirants = random.sample(population, k)
-        selected.append(min(aspirants, key=lambda ind: ind[1]))
-    return selected
+        competitors = random.sample(population, tournament_size)
+        winner = min(competitors, key=lambda individual: individual[1])
+        selected_contestants.append(winner)
+    return selected_contestants
 
 
-### Crossover ###
-def crossover(father1, father2, objectiveVector):
-    n = len(father1)
-    point1, point2 = sorted(random.sample(range(1, n), 2))
-    son1 = father1[:point1] + father2[point1:point2] + father1[point2:]
-    son2 = father2[:point1] + father1[point1:point2] + father2[point2:]
-    return [son1, objective_Function(objectiveVector, t(son1))], [son2, objective_Function(objectiveVector, t(son2))]
+def two_point_crossover(parent1, parent2, target_nutritional_values):
+    chromosome_size = len(parent1)
+    crossover_point1, crossover_point2 = sorted(
+        random.sample(range(1, chromosome_size), 2)
+    )
+
+    offspring1 = (
+        parent1[:crossover_point1]
+        + parent2[crossover_point1:crossover_point2]
+        + parent1[crossover_point2:]
+    )
+    offspring2 = (
+        parent2[:crossover_point1]
+        + parent1[crossover_point1:crossover_point2]
+        + parent2[crossover_point2:]
+    )
+
+    fitness_offspring1 = calculate_euclidean_distance(
+        target_nutritional_values, calculate_nutritional_values(offspring1)
+    )
+    fitness_offspring2 = calculate_euclidean_distance(
+        target_nutritional_values, calculate_nutritional_values(offspring2)
+    )
+
+    return [(offspring1, fitness_offspring1), (offspring2, fitness_offspring2)]
 
 
-### Generate sons ###
-def recombination(population, probCrossover, objectiveVector):
-    random.shuffle(population)
-    sons = []
+def crossover(population, crossover_rate, target_nutritional_values):
+    np.random.shuffle(population)
+
+    offspring = []
     for i in range(0, len(population) - 1, 2):
-        if random.uniform(0, 1) < probCrossover:
-            son1, son2 = crossover(population[i][0], population[i + 1][0], objectiveVector)
-            sons.extend([son1, son2])
-    return sons
+        if np.random.rand() < crossover_rate:
+            child1, child2 = two_point_crossover(
+                population[i][0], population[i + 1][0], target_nutritional_values
+            )
+            offspring.extend([child1, child2])
+    return offspring
 
 
-### Mutation ###
-def mutation(sons, probMutation):
-    for son in sons:
-        for i in range(len(son[0])):
-            if random.uniform(0, 1) < probMutation:
-                son[0][i] = random.randint(1, 1408)
+def mutate(offspring: list, mutation_rate: float):
+    for child in offspring:
+        chromosome = child[0]
+        mutation_mask = np.random.rand(len(chromosome)) < mutation_rate
+        mutation_values = np.random.randint(
+            1, NUMBER_OF_INGREDIENTS + 1, size=len(chromosome)
+        )
+        chromosome[mutation_mask] = mutation_values[mutation_mask]
+    return offspring
 
 
-### Elitism ###
-def elitism(population, tamPopulation):
-    return sorted(population, key=lambda x: x[1])[:tamPopulation]
+def elitism(population, population_size):
+    sorted_population = sorted(population, key=lambda x: x[1])
+    elite_individuals = sorted_population[:population_size]
+    return elite_individuals
 
 
-### Genetic Algorithm ###
-def genetic(objectiveVector, numMeals, tamPopulation, probCrossover, probMutation, generations):
-    population = initialize_Population(tamPopulation, numMeals, objectiveVector)
-    for g in range(generations):
-        selected = tournament_selection(population)
-        sons = recombination(selected, probCrossover, objectiveVector)
-        mutation(sons, probMutation)
-        population = elitism(population + sons, tamPopulation)
-        print(f'Generation {g}: Best fitness: {population[0][1]}, Individual: {population[0][0]}')
-        print('-----------')
+DEFAULT_POPULATION_SIZE = 100
+DEFAULT_CROSSOVER_RATE = 0.9
+DEFAULT_MUTATION_RATE = 0.5
+DEFAULT_NUMBER_OF_GENERATIONS = 100
+
+
+def genetic(
+    target_nutritional_values: list[float],
+    chromosome_size: int,
+    population_size: int = DEFAULT_POPULATION_SIZE,
+    crossover_rate: float = DEFAULT_CROSSOVER_RATE,
+    mutation_rate: float = DEFAULT_MUTATION_RATE,
+    number_of_generations: int = DEFAULT_NUMBER_OF_GENERATIONS,
+):
+    population = initialize_population(
+        population_size, chromosome_size, target_nutritional_values
+    )
+
+    for _ in range(number_of_generations):
+        selected_population = tournament_selection(population)
+        offspring = crossover(
+            selected_population, crossover_rate, target_nutritional_values
+        )
+
+        mutate(offspring, mutation_rate)
+
+        population = elitism(population + offspring, population_size)
 
     return population[0][0]
-
