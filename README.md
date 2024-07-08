@@ -8,4 +8,4 @@ Welcome to SmartFood!
   <img src="assets/Icono_SmarFood.png" alt="Icon" width="200px"/>
 </p>
 
-### SmartFood is a diet generator using a genetic algorithm
+### SmartFood is a diet generator that uses a genetic algorithm.
