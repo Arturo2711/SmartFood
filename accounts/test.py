@@ -61,7 +61,7 @@ def mutation(sons, probMutation):
     for son in sons:
         for i in range(len(son[0])):
             if random.uniform(0, 1) < probMutation:
-                son[0][i] = random.randint(1, 1408)
+                son[0][i] = random.randint(1, 1400)
 
 
 ### Elitism ###
