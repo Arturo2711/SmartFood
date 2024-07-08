@@ -19,7 +19,7 @@ def objective_Function(objectiveVector, individual):
 def initialize_Population(tamPopulation, num_meals, objectiveVector):
     population = []
     for _ in range(tamPopulation):
-        individual = [random.randint(1, 1408) for _ in range(num_meals)]
+        individual = [random.randint(1, 1400) for _ in range(num_meals)]
         vector = t(individual)
         fitness = objective_Function(objectiveVector, vector)
         population.append([individual, fitness])

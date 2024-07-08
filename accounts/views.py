@@ -219,7 +219,7 @@ def make_meal(user):
     desayuno, colacion, comida ,cena = entradaGenetico.get_vectores_Desayuno_Comida_Colacion_Cena(user.kg,user.fa, user.objetivo)
 
     vectores = [desayuno, colacion, comida, cena]
-    num_meals = [4,3,3,3]
+    num_meals = [4,3,4,3]
 
     for comidas,num_meal in zip(vectores, num_meals):
 
