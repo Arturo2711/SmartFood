@@ -1,11 +1,12 @@
 # SmartFood
 
-This project is about improving the nutritional health and life of everybody.
-
-Welcome to SmartFood!
+Welcome to SmartFood! This project is dedicated to enhancing everyone's nutritional health and quality of life.
 
 <p align="center">
   <img src="assets/Icono_SmarFood.png" alt="Icon" width="200px"/>
 </p>
 
-### SmartFood is a diet generator that uses a genetic algorithm.
+<h3 align="center">The core feature of SmartFood is a diet generator powered by a genetic algorithm.</h3>
+
+<h4>What is SmartFood?</h4>
+SmartFood is a web application built with Django as the backend. It allows users to create an account and log in to access personalized diet plans.
