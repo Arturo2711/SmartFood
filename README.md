@@ -13,7 +13,7 @@ SmartFood is a web application built with Django as the backend. It allows users
 
 The following are some images from the web application:
 
-#### Main page of SmartFood
+#### Main Page of SmartFood
 
 <p align="center">
   <img src="assets/mainPage.png" alt="Main Page" width="700px"/>
@@ -25,11 +25,16 @@ The following are some images from the web application:
   <img src="assets/login.png" alt="Login Page" width="700px"/>
 </p>
 
-#### Home session
+#### Home Session
 
 <p align="center">
-  <img src="assets/home.png" alt="Login Page" width="700px"/>
+  <img src="assets/home.png" alt="Home Page" width="700px"/>
 </p>
 
-Once the user has succefuly created an account. Just one click it's needed to generate a diet wich exactly matches with the user's objective 
+Once the user has successfully created an account, just one click is needed to generate a diet that exactly matches the user's objective.
 
+<p align="center">
+  <img src="assets/recipies.png" alt="Diet Plan" width="700px"/>
+</p>
+
+Another functionality of the app allows users to update their information at any moment.
